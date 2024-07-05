@@ -50,7 +50,7 @@ const BannerEdit = ({ onClose, productData, fetchData }) => {
 
     const newProductImage = [...data.productImage];
     const url = SummaryApi.DeleteBanner.url;
-    const URL_PARAMS = `${url}?banner_id=${newProductImage[index].banner_id}`;
+    const URL_PARAMS = `${url}?url=${newProductImage[index]}`;
 
     const response = await fetch(URL_PARAMS, {
       method: SummaryApi.DeleteBanner.method,
