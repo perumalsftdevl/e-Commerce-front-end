@@ -42,18 +42,23 @@ const UploadProduct = ({ onClose, fetchData }) => {
   }, []);
 
   const handleUploadProduct = async (e, e1) => {
-    const file = e.target.files[0];
-    const uploadImageCloudinary = await uploadImage(file, data.category);
-
-    setData((preve) => {
-      return {
-        ...preve,
-        productImage: [
-          ...(preve.productImage ?? []),
-          uploadImageCloudinary.url,
-        ].filter((e) => e !== undefined),
-      };
-    });
+    const file = e.target.files;
+    for (let index = 0; index < file.length; index++) {
+      const element = file[index];
+      const uploadImageCloudinary = await uploadImage(
+        file[index],
+        data.category
+      );
+      setData((preve) => {
+        return {
+          ...preve,
+          productImage: [
+            ...(preve.productImage ?? []),
+            uploadImageCloudinary.url,
+          ].filter((e) => e !== undefined),
+        };
+      });
+    }
   };
 
   const handleDeleteProductImage = async (index) => {
@@ -190,6 +195,7 @@ const UploadProduct = ({ onClose, fetchData }) => {
                   id="uploadImageInput"
                   className="hidden"
                   accept=".png,jpeg,jpg,JPEG"
+                  multiple
                   onChange={(e) => handleUploadProduct(e, data.category)}
                 />
               </div>

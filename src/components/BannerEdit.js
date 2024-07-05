@@ -30,15 +30,17 @@ const BannerEdit = ({ onClose, productData, fetchData }) => {
   };
 
   const handleUploadProduct = async (e) => {
-    const file = e.target.files[0];
-    const uploadImageCloudinary = await uploadImage(file);
+    const file = e.target.files;
+    for (let index = 0; index < file.length; index++) {
+      const uploadImageCloudinary = await uploadImage(file[index]);
 
-    setData((preve) => {
-      return {
-        ...preve,
-        productImage: [...preve.productImage, uploadImageCloudinary.data.url],
-      };
-    });
+      setData((preve) => {
+        return {
+          ...preve,
+          productImage: [...preve.productImage, uploadImageCloudinary.data.url],
+        };
+      });
+    }
   };
 
   const handleDeleteProductImage = async (index) => {
@@ -48,7 +50,7 @@ const BannerEdit = ({ onClose, productData, fetchData }) => {
 
     const newProductImage = [...data.productImage];
     const url = SummaryApi.DeleteBanner.url;
-    const URL_PARAMS = `${url}?file=${newProductImage[index]}`;
+    const URL_PARAMS = `${url}?banner_id=${newProductImage[index].banner_id}`;
 
     const response = await fetch(URL_PARAMS, {
       method: SummaryApi.DeleteBanner.method,
@@ -142,6 +144,7 @@ const BannerEdit = ({ onClose, productData, fetchData }) => {
                   id="uploadImageInput"
                   className="hidden"
                   accept=".png,jpeg,jpg,JPEG"
+                  multiple
                   onChange={handleUploadProduct}
                 />
               </div>
